@@ -1,57 +1,107 @@
-## Generated mta.yaml based on template version 0.4.0
-## appName = esp32
-## language=nodejs; multiTenant=false
-## approuter=
-_schema-version: '3.1'
+_schema-version: "3.1"
 ID: esp32
+description: A simple CAP project.
 version: 1.0.0
-description: "A simple CAP project."
+modules:
+- name: esp32-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: esp32-db
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+- name: esp32-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: esp32-db
+  parameters:
+    buildpack: nodejs_buildpack
+- name: esp32-router
+  type: approuter.nodejs
+  path: cf/router
+  requires:
+  - name: esp32-html5-repo-runtime
+  - name: esp32-uaa
+  - name: esp32-destination
+    group: destinations
+    properties:
+      forwardAuthToken: false
+      name: ui5
+      url: https://ui5.sap.com
+  - name: esp32-connectivity
+  parameters:
+    disk-quota: 256M
+    memory: 256M
+    routes:
+    - route: https://esp32-${org}-${space}.${default-domain}
+- name: esp32-deployer
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: esp32-html5-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - commarcmaurimeasures.zip
+      name: commarcmaurimeasures
+      target-path: resources/
+- name: commarcmaurimeasures
+  type: html5
+  path: measures
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: esp32-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hanatrial
+    service-plan: hdi-shared
+  properties:
+    hdi-service-name: ${service-name}
+- name: esp32-uaa
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      tenant-mode: dedicated
+      xsappname: esp32-${org}
+    service: xsuaa
+    service-plan: application
+- name: esp32-html5-repo-runtime
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-runtime
+- name: esp32-destination
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: destination
+    service-plan: lite
+- name: esp32-html5-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-host
+- name: esp32-connectivity
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: connectivity
+    service-plan: lite
 parameters:
   enable-parallel-deployments: true
-   
 build-parameters:
   before-all:
-   - builder: custom
-     commands:
-      - npm install --production
-      - npx -p @sap/cds-dk cds build --production
-
-modules:
- # --------------------- SERVER MODULE ------------------------
- - name: esp32-srv
- # ------------------------------------------------------------
-   type: nodejs
-   path: gen/srv
-   requires:
-    # Resources extracted from CAP configuration
-    - name: esp32-db
-   provides:
-    - name: srv-api      # required by consumers of CAP services (e.g. approuter)
-      properties:
-        srv-url: ${default-url}
-
- # -------------------- SIDECAR MODULE ------------------------
- - name: esp32-db-deployer
- # ------------------------------------------------------------
-   type: hdb
-   path: gen/db  
-   parameters:
-     buildpack: nodejs_buildpack
-   requires:
-    # 'hana' and 'xsuaa' resources extracted from CAP configuration
-    - name: esp32-db
-
-
-resources:
- # services extracted from CAP configuration
- # 'service-plan' can be configured via 'cds.requires.<name>.vcap.plan'
-# ------------------------------------------------------------
- - name: esp32-db
-# ------------------------------------------------------------
-   type: com.sap.xs.hdi-container
-   parameters:
-     service: hanatrial  # or 'hanatrial' on trial landscapes
-     service-plan: hdi-shared
-   properties:
-     hdi-service-name: ${service-name}
-
+  - builder: custom
+    commands:
+    - npm install --production
+    - npx -p @sap/cds-dk cds build --production
