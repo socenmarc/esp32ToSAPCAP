@@ -18,7 +18,7 @@
                         <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Column"/>
                         <PropertyValue Property="Dimensions">
                             <Collection>
-                                <PropertyPath>deviceID</PropertyPath>
+                                <PropertyPath>deviceName</PropertyPath>
                             </Collection>
                         </PropertyValue>
                         <PropertyValue Property="Measures">
