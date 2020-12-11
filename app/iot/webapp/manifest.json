@@ -1,7 +1,7 @@
 {
     "_version": "1.8.0",
     "sap.app": {
-        "id": "com.marcmauri.measures",
+        "id": "com.marcmauri.app.iot",
         "type": "application",
         "i18n": "i18n/i18n.properties",
         "applicationVersion": {
@@ -88,15 +88,14 @@
                 "type": "sap.ui.model.resource.ResourceModel",
                 "uri": "i18n/i18n.properties"
             },
-            "i18n|sap.suite.ui.generic.template.ListReport|measure": {
+            "i18n|sap.suite.ui.generic.template.ListReport|MeasureView": {
                 "type": "sap.ui.model.resource.ResourceModel",
-                "uri": "i18n/ListReport/measure/i18n.properties"
+                "uri": "i18n/ListReport/MeasureView/i18n.properties"
             },
-            "i18n|sap.suite.ui.generic.template.ObjectPage|measure": {
+            "i18n|sap.suite.ui.generic.template.ObjectPage|MeasureView": {
                 "type": "sap.ui.model.resource.ResourceModel",
-                "uri": "i18n/ObjectPage/measure/i18n.properties"
+                "uri": "i18n/ObjectPage/MeasureView/i18n.properties"
             },
-            
             "": {
                 "dataSource": "mainService",
                 "preload": true,
@@ -126,30 +125,29 @@
             "showDraftToggle": false
         },
         "pages": {
-            "AnalyticalListPage|measure": {
-                "entitySet": "measure",
+            "AnalyticalListPage|MeasureView": {
+                "entitySet": "MeasureView",
                 "component": {
                     "name": "sap.suite.ui.generic.template.AnalyticalListPage",
                     "list": true,
                     "settings": {
-                        "condensedTableLayout": true,
-                        "showGoButtonOnFilterBar": true,
-                        "tableType": "AnalyticalTable",
-                        "multiSelect": true,
                         "qualifier": "",
                         "autoHide": true,
+                        "condensedTableLayout": true,
+                        "showGoButtonOnFilterBar": true,
                         "smartVariantManagement": true,
-                        "keyPerformanceIndicators": {}
+                        "chartSettings": {
+                            "showDataLabel": true
+                        }
                     }
                 },
                 "pages": {
-                    "ObjectPage|measure": {
-                        "entitySet": "measure",
+                    "ObjectPage|MeasureView": {
+                        "entitySet": "MeasureView",
                         "defaultLayoutTypeIfExternalNavigation": "MidColumnFullScreen",
                         "component": {
                             "name": "sap.suite.ui.generic.template.ObjectPage"
                         }
-                        
                     }
                 }
             }

@@ -9,9 +9,23 @@ service IOTService {
     //@odata.draft.enabled
     entity Measure as projection on my.Measure;
 
-    entity Device as projection on my.Device;
+    @readonly
+    entity MeasureView as select from my.Measure {
+        ID,
+        timestamp,
+        date,
+        temperature,
+        humidity,
+        toDevice.ID as deviceID,
+        toDevice.device as deviceName,
+        year,
+        toMeasureMonth.ID as measureMonthID,
+        toMeasureMonth.Description as measureMonthDescription,
+        toMeasureMonth.ShortDescription as measureMonthShortDescription
+    };
 
-    entity DeviceAggregation as select from my.Device left outer join my.Measure on Device.ID = Measure.device.ID {
+    entity Device as projection on my.Device;
+    entity DeviceAggregation as select from my.Device left outer join Measure on Device.ID = Measure.toDevice.ID {
         key Device.ID,
         Device.device,
         count(Measure.date) as measuresCount: Integer,
@@ -19,12 +33,17 @@ service IOTService {
         avg(Measure.humidity) as humidityAvg: Decimal(5,2),
     } group by Device.ID;
 
-    entity MeasureAggregation as select from Measure {
-        key ID,
-        device,
+    entity MeasureAggregation as select from MeasureView left outer join my.Device on Device.ID = MeasureView.deviceID {
+        key MeasureView.ID as ID,
+        measureMonthDescription,
+        measureMonthShortDescription,
+        measureMonthID,
+        date,
+        year,
         count(date) as measuresCount: Integer,
         avg(temperature) as temperatureAvg: Decimal(18,15),
         avg(humidity) as humidityAvg: Decimal(18,15),
     } group by date;
+ 
 
 } 

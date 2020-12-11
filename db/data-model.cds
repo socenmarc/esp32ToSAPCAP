@@ -6,17 +6,25 @@ using {
 } from '@sap/cds/common';
 
 entity Measure : cuid, managed {
-  device         : Association to Device;
   timestamp      : Timestamp;
   date           : Date;
+  year           : String(4);
   temperature    : Decimal(5, 2);
   humidity       : Decimal(5, 2);
-  virtual vMonth : String(10);
-  virtual vYear  : String(4);
+  toDevice       : Association to Device;  
+  toMeasureMonth : Association to Months;
 };
 
-entity Device : cuid, managed {
+entity Device : managed {
+  key ID   : UUID;         //si en comptes d'això poso l'aspect cuid, dona error el device.ID a la entitat MeasureView del servei
   device   : String;
   measures : Association to many Measure
-               on measures.device = $self;
-}
+               on measures.toDevice = $self;
+};
+
+@cds.autoexpose
+entity Months {
+    key ID               : String(2);
+        Description      : localized String;
+        ShortDescription : localized String(3);
+};

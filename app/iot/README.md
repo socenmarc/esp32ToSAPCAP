@@ -1,22 +1,22 @@
 ## Application Details
 |               |
 | ------------- |
-|**Generation Date and Time**<br>Wed Dec 09 2020 14:55:55 GMT+0100 (Central European Standard Time)|
+|**Generation Date and Time**<br>Fri Dec 11 2020 14:44:57 GMT+0100 (Central European Standard Time)|
 |**App Generator Version**<br>1.0.24|
 |**Generation Platform**<br>Visual Studio Code|
 |**Floorplan Used**<br>Analytical List Page|
 |**Service Type**<br>OData Url|
 |**Service URL**<br>http://localhost:4004/v2/iot/|
-|**Main Entity**<br>measure|
+|**Main Entity**<br>MeasureView|
 |**Navigation Entity**<br>None|
-|**Module Name**<br>measures|
+|**Module Name**<br>iot|
 |**Application Title**<br>IOT measures|
-|**Namespace**<br>com.marcmauri|
+|**Namespace**<br>com.marcmauri.app|
 |**UI5 Theme**<br>sap_fiori_3|
 |**UI5 Version**<br>Latest |
 |**Enable Telemetry**<br>True |
 
-## measures
+## iot
 
 IOT measures
 
