@@ -39,6 +39,7 @@ service IOTService {
         measureMonthDescription,
         measureMonthShortDescription,
         measureMonthID,
+        measureMonthYear,
         date,
         year,
         count(date) as measuresCount: Integer,
