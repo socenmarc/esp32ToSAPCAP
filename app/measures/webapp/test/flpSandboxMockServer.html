@@ -62,7 +62,7 @@
 			data-sap-ui-libs="sap.m, sap.ushell, sap.ui.core, sap.f, sap.ui.comp, sap.ui.table, sap.suite.ui.generic.template, sap.ui.generic.app"
 			data-sap-ui-theme="sap_fiori_3"
 			data-sap-ui-compatVersion="edge"
-			data-sap-ui-flexibilityServices='[{"applyConnector":"com/marc/mauri/measures/test/changes_loader", "custom":true}]'
+			data-sap-ui-flexibilityServices='[{"applyConnector":"com/marcmauri/measures/test/changes_loader", "custom":true}]'
 			data-sap-ui-language="en"
 			data-sap-ui-resourceroots='{"com.marcmauri.measures": "../"}'
 			data-sap-ui-frameOptions="allow"> // NON-SECURE setting for testing environment
@@ -70,7 +70,7 @@
 
 	<script type="text/javascript">
 		sap.ui.getCore().attachInit(function() {
-			sap.ui.require(["com/marc/mauri/measures/localService/mockserver"],
+			sap.ui.require(["com/marcmauri/measures/localService/mockserver"],
 				function(server) {
 					// set up test service for local testing
 					server.init();

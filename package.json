@@ -1,27 +1,29 @@
 {
-    "name": "esp32",
-    "version": "1.0.0",
-    "description": "A simple CAP project.",
-    "repository": "<Add your repository here>",
-    "license": "UNLICENSED",
-    "private": true,
-    "dependencies": {
-        "@sap/cds": "^4",
-        "@sap/cds-odata-v2-adapter-proxy": "^1.4.60",
-        "@sap/hana-client": "^2.4.177",
-        "express": "^4"
-    },
-    "devDependencies": {
-        "sqlite3": "^5"
-    },
-    "scripts": {
-        "start": "npx cds run"
-    },
-    "cds": {
-        "requires": {
-            "db": {
-                "kind": "sql"
-            }
-        }
+  "name": "esp32",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^4",
+    "@sap/cds-odata-v2-adapter-proxy": "^1.4.60",
+    "@sap/hana-client": "^2.4.177",
+    "express": "^4",
+    "moment": "^2.29.1"
+  },
+  "devDependencies": {
+    "sqlite3": "^5"
+  },
+  "scripts": {
+    "start": "npx cds run"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "sqlite",
+        "model": "*"
+      }
     }
+  }
 }
