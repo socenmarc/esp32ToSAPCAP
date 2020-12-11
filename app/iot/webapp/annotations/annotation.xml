@@ -18,12 +18,13 @@
                         <PropertyValue Property="ChartType" EnumMember="UI.ChartType/Column"/>
                         <PropertyValue Property="Dimensions">
                             <Collection>
-                                <PropertyPath>deviceName</PropertyPath>
+                                <PropertyPath>measureMonthYear</PropertyPath>
                             </Collection>
                         </PropertyValue>
                         <PropertyValue Property="Measures">
                             <Collection>
                                 <PropertyPath>temperature</PropertyPath>
+                                <PropertyPath>humidity</PropertyPath>
                             </Collection>
                         </PropertyValue>
                     </Record>

@@ -36,6 +36,7 @@ annotate IOTService.MeasureView with {
     deviceID                     @sap.aggregation.role : 'dimension';
     deviceName                   @sap.aggregation.role : 'dimension';
     year                         @sap.aggregation.role : 'dimension';
+    measureMonthYear             @sap.aggregation.role : 'dimension';
     measureMonthID               @sap.aggregation.role : 'dimension';
     measureMonthDescription      @sap.aggregation.role : 'dimension';
     measureMonthShortDescription @sap.aggregation.role : 'dimension';

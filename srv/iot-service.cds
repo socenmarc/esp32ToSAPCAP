@@ -19,6 +19,7 @@ service IOTService {
         toDevice.ID as deviceID,
         toDevice.device as deviceName,
         year,
+        toMeasureMonth.ID || '-' || toMeasureMonth.ShortDescription as measureMonthYear : String,        
         toMeasureMonth.ID as measureMonthID,
         toMeasureMonth.Description as measureMonthDescription,
         toMeasureMonth.ShortDescription as measureMonthShortDescription
