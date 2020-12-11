@@ -17,6 +17,7 @@ entity Measure : cuid, managed {
 
 entity Device : managed {
   key ID   : UUID;         //si en comptes d'això poso l'aspect cuid, dona error el device.ID a la entitat MeasureView del servei
+  location : String;
   device   : String;
   measures : Association to many Measure
                on measures.toDevice = $self;

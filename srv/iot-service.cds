@@ -18,17 +18,19 @@ service IOTService {
         humidity,
         toDevice.ID as deviceID,
         toDevice.device as deviceName,
+        toDevice.location as deviceLocation,
         year,
-        toMeasureMonth.ID || '-' || toMeasureMonth.ShortDescription as measureMonthYear : String,        
+        toMeasureMonth.ShortDescription || '-' || year as measureMonthYear : String,        
         toMeasureMonth.ID as measureMonthID,
         toMeasureMonth.Description as measureMonthDescription,
         toMeasureMonth.ShortDescription as measureMonthShortDescription
     };
 
-    entity Device as projection on my.Device;
+    entity Device as projection on my.Device excluding { measures }
     entity DeviceAggregation as select from my.Device left outer join Measure on Device.ID = Measure.toDevice.ID {
-        key Device.ID,
-        Device.device,
+        key Device.ID as deviceID,
+        Device.device as deviceName,
+        Device.location as deviceLocation,
         count(Measure.date) as measuresCount: Integer,
         avg(Measure.temperature) as temperatureAvg: Decimal(5,2),
         avg(Measure.humidity) as humidityAvg: Decimal(5,2),
@@ -39,7 +41,6 @@ service IOTService {
         measureMonthDescription,
         measureMonthShortDescription,
         measureMonthID,
-        measureMonthYear,
         date,
         year,
         count(date) as measuresCount: Integer,

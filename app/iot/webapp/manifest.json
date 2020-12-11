@@ -133,9 +133,18 @@
                     "settings": {
                         "qualifier": "",
                         "autoHide": true,
+                        "quickVariantSelection": {},
                         "condensedTableLayout": true,
-                        "showGoButtonOnFilterBar": true,
+                        "dataLoadSettings": {
+                            "loadDataOnAppLaunch": "always"
+                        },
+                        "showGoButtonOnFilterBar": false,
                         "smartVariantManagement": true,
+                        "filterSettings": {
+                            "dateSettings": {
+                                "useDateRange": true
+                            }
+                        },
                         "chartSettings": {
                             "showDataLabel": true
                         }
