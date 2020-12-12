@@ -48,12 +48,12 @@ modules:
     build-result: resources
     requires:
     - artifacts:
-      - commarcmaurimeasures.zip
-      name: commarcmaurimeasures
+      - commarcmauriiot.zip
+      name: commarcmauriiot
       target-path: resources/
-- name: commarcmaurimeasures
+- name: commarcmauriiot
   type: html5
-  path: measures
+  path: ./app/iot
   build-parameters:
     build-result: dist
     builder: custom
