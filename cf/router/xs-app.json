@@ -1,5 +1,5 @@
 {
-    "welcomeFile": "/commarcmaurimeasures/",
+    "welcomeFile": "/commarcmauriappiot/",
     "authenticationMethod": "route",
     "routes": [
       {
