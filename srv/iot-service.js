@@ -30,12 +30,12 @@ module.exports = cds.service.impl((srv) => {
     }); 
 
 
-    srv.after('GET', Measure, (each) => { 
+/*     srv.after('GET', Measure, (each) => {  */
  //     console.log('a')
         // Virtual fields
         /* each.vMonth = moment(each.date).format('MMM-YY')
         each.vYear = moment(each.date).format('YYYY')
  */
-    });
+/*     }); */
 
 });
