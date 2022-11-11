@@ -13,17 +13,17 @@ service IOTService {
     entity MeasureView as select from my.Measure {
         key ID,
         timestamp,
-        date,
         temperature,
         humidity,
         toDevice.ID as deviceID,
         toDevice.device as deviceName,
         toDevice.location as deviceLocation,
-        year,
-        toMeasureMonth.ShortDescription || '-' || year as measureMonthYear : String,        
+        toMeasureMonth.ShortDescription || '-' || substring(timestamp,1,4) as measureMonthYear : String,        
         toMeasureMonth.ID as measureMonthID,
         toMeasureMonth.Description as measureMonthDescription,
-        toMeasureMonth.ShortDescription as measureMonthShortDescription
+        toMeasureMonth.ShortDescription as measureMonthShortDescription,
+        substring(timestamp,1,4) as year:String,
+        cast (substring(timestamp,1,10) as Date) as date
     };
 
     entity Device as projection on my.Device excluding { measures }
@@ -32,7 +32,7 @@ service IOTService {
         key toDevice.ID as deviceID,
         toDevice.device as deviceName,
         toDevice.location as deviceLocation,
-        count(date) as measuresCount: Integer,
+        count(ID) as measuresCount: Integer,
         avg(temperature) as temperatureAvg: Decimal(5,2),
         avg(humidity) as humidityAvg: Decimal(5,2),
     } group by toDevice.ID, toDevice.device, toDevice.location;

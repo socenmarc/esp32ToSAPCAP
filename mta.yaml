@@ -51,9 +51,23 @@ modules:
       - commarcmauriappiot.zip
       name: commarcmauriappiot
       target-path: resources/
+    - artifacts:
+      - iotupgr.zip
+      name: iotupgr
+      target-path: resources/
 - name: commarcmauriappiot
   type: html5
   path: app/iot
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: iotupgr
+  type: html5
+  path: app/iotupgr
   build-parameters:
     build-result: dist
     builder: custom
@@ -85,6 +99,17 @@ resources:
 - name: esp32-destination
   type: org.cloudfoundry.managed-service
   parameters:
+    config:
+      HTML5Runtime_enabled: false
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
     service: destination
     service-plan: lite
 - name: esp32-html5-repo-host
@@ -98,6 +123,7 @@ resources:
     service: connectivity
     service-plan: lite
 parameters:
+  deploy_mode: html5-repo
   enable-parallel-deployments: true
 build-parameters:
   before-all:

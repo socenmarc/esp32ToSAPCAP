@@ -122,7 +122,9 @@
         "settings": {
             "forceGlobalRefresh": false,
             "objectPageHeaderType": "Dynamic",
-            "showDraftToggle": false
+            "showDraftToggle": false,        
+            "useColumnLayoutForSmartForm": false,
+            "showBasicSearch": false
         },
         "pages": {
             "AnalyticalListPage|MeasureView": {
@@ -138,8 +140,8 @@
                         "dataLoadSettings": {
                             "loadDataOnAppLaunch": "always"
                         },
-                        "showGoButtonOnFilterBar": false,
-                        "smartVariantManagement": true,
+                        "showGoButtonOnFilterBar": true,
+                        "smartVariantManagement": false,
                         "filterSettings": {
                             "dateSettings": {
                                 "useDateRange": true
@@ -147,7 +149,11 @@
                         },
                         "chartSettings": {
                             "showDataLabel": true
-                        }
+                        },
+                        "hideVisualFilter": false,
+                        "defaultFilterMode": "visual",
+                        "defaultContentView": "charttable",
+                        "lazyLoadVisualFilter": true                   
                     }
                 },
                 "pages": {

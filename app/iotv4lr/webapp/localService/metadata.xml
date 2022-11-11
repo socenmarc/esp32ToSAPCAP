@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+        <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="IOTService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Measure" EntityType="IOTService.Measure">
+                    <NavigationPropertyBinding Path="toDevice" Target="Device"/>
+                    <NavigationPropertyBinding Path="toMeasureMonth" Target="Months"/>
+                </EntitySet>
+                <EntitySet Name="MeasureView" EntityType="IOTService.MeasureView"/>
+                <EntitySet Name="Device" EntityType="IOTService.Device"/>
+                <EntitySet Name="DeviceAggregation" EntityType="IOTService.DeviceAggregation"/>
+                <EntitySet Name="MeasureAggregation" EntityType="IOTService.MeasureAggregation"/>
+                <EntitySet Name="Months" EntityType="IOTService.Months">
+                    <NavigationPropertyBinding Path="texts" Target="Months_texts"/>
+                    <NavigationPropertyBinding Path="localized" Target="Months_texts"/>
+                </EntitySet>
+                <EntitySet Name="Months_texts" EntityType="IOTService.Months_texts"/>
+            </EntityContainer>
+            <EntityType Name="Measure">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="timestamp" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="temperature" Type="Edm.Decimal" Scale="2" Precision="5"/>
+                <Property Name="humidity" Type="Edm.Decimal" Scale="2" Precision="5"/>
+                <NavigationProperty Name="toDevice" Type="IOTService.Device">
+                    <ReferentialConstraint Property="toDevice_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="toDevice_ID" Type="Edm.Guid"/>
+                <NavigationProperty Name="toMeasureMonth" Type="IOTService.Months">
+                    <ReferentialConstraint Property="toMeasureMonth_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="toMeasureMonth_ID" Type="Edm.String" MaxLength="2"/>
+            </EntityType>
+            <EntityType Name="MeasureView">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="timestamp" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="temperature" Type="Edm.Decimal" Scale="2" Precision="5"/>
+                <Property Name="humidity" Type="Edm.Decimal" Scale="2" Precision="5"/>
+                <Property Name="deviceID" Type="Edm.Guid"/>
+                <Property Name="deviceName" Type="Edm.String"/>
+                <Property Name="deviceLocation" Type="Edm.String"/>
+                <Property Name="measureMonthYear" Type="Edm.String"/>
+                <Property Name="measureMonthID" Type="Edm.String" MaxLength="2"/>
+                <Property Name="measureMonthDescription" Type="Edm.String"/>
+                <Property Name="measureMonthShortDescription" Type="Edm.String" MaxLength="3"/>
+                <Property Name="year" Type="Edm.String"/>
+                <Property Name="date" Type="Edm.Date"/>
+            </EntityType>
+            <EntityType Name="Device">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="location" Type="Edm.String"/>
+                <Property Name="device" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="DeviceAggregation">
+                <Key>
+                    <PropertyRef Name="deviceID"/>
+                </Key>
+                <Property Name="deviceID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="deviceName" Type="Edm.String"/>
+                <Property Name="deviceLocation" Type="Edm.String"/>
+                <Property Name="measuresCount" Type="Edm.Int32"/>
+                <Property Name="temperatureAvg" Type="Edm.Decimal" Scale="2" Precision="5"/>
+                <Property Name="humidityAvg" Type="Edm.Decimal" Scale="2" Precision="5"/>
+            </EntityType>
+            <EntityType Name="MeasureAggregation">
+                <Key>
+                    <PropertyRef Name="date"/>
+                </Key>
+                <Property Name="date" Type="Edm.Date" Nullable="false"/>
+                <Property Name="measureMonthYear" Type="Edm.String"/>
+                <Property Name="year" Type="Edm.String"/>
+                <Property Name="measuresCount" Type="Edm.Int32"/>
+                <Property Name="temperatureAvg" Type="Edm.Decimal" Scale="15" Precision="18"/>
+                <Property Name="humidityAvg" Type="Edm.Decimal" Scale="15" Precision="18"/>
+            </EntityType>
+            <EntityType Name="Months">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.String" MaxLength="2" Nullable="false"/>
+                <Property Name="Description" Type="Edm.String"/>
+                <Property Name="ShortDescription" Type="Edm.String" MaxLength="3"/>
+                <NavigationProperty Name="texts" Type="Collection(IOTService.Months_texts)">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="localized" Type="IOTService.Months_texts">
+                    <ReferentialConstraint Property="ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Months_texts">
+                <Key>
+                    <PropertyRef Name="locale"/>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false"/>
+                <Property Name="ID" Type="Edm.String" MaxLength="2" Nullable="false"/>
+                <Property Name="Description" Type="Edm.String"/>
+                <Property Name="ShortDescription" Type="Edm.String" MaxLength="3"/>
+            </EntityType>
+            <Annotations Target="IOTService.EntityContainer/Measure">
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="true"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="true"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="true"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="IOTService.Measure/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                </Annotations>
+                <Annotations Target="IOTService.Measure/createdBy">
+                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                    <Annotation Term="Core.Immutable" Bool="true"/>
+                    <Annotation Term="Core.Computed" Bool="true"/>
+                    <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                        </Annotations>
+                        <Annotations Target="IOTService.Measure/modifiedAt">
+                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                            <Annotation Term="Core.Computed" Bool="true"/>
+                            <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                            </Annotations>
+                            <Annotations Target="IOTService.Measure/modifiedBy">
+                                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                <Annotation Term="Core.Computed" Bool="true"/>
+                                <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                    <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                    </Annotations>
+                                    <Annotations Target="IOTService.MeasureView">
+                                        <Annotation Term="UI.SelectionFields">
+                                            <Collection>
+                                                <PropertyPath>deviceID</PropertyPath>
+                                                <PropertyPath>deviceName</PropertyPath>
+                                                <PropertyPath>date</PropertyPath>
+                                                <PropertyPath>temperature</PropertyPath>
+                                                <PropertyPath>humidity</PropertyPath>
+                                                <PropertyPath>year</PropertyPath>
+                                                <PropertyPath>measureMonthID</PropertyPath>
+                                            </Collection>
+                                        </Annotation>
+                                        <Annotation Term="UI.LineItem">
+                                            <Collection>
+                                                <Record Type="UI.DataField">
+                                                    <PropertyValue Property="Value" Path="deviceLocation"/>
+                                                </Record>
+                                                <Record Type="UI.DataField">
+                                                    <PropertyValue Property="Value" Path="deviceName"/>
+                                                </Record>
+                                                <Record Type="UI.DataField">
+                                                    <PropertyValue Property="Value" Path="timestamp"/>
+                                                </Record>
+                                                <Record Type="UI.DataField">
+                                                    <PropertyValue Property="Value" Path="date"/>
+                                                </Record>
+                                                <Record Type="UI.DataField">
+                                                    <PropertyValue Property="Value" Path="temperature"/>
+                                                </Record>
+                                                <Record Type="UI.DataField">
+                                                    <PropertyValue Property="Value" Path="humidity"/>
+                                                </Record>
+                                            </Collection>
+                                        </Annotation>
+                                    </Annotations>
+                                    <Annotations Target="IOTService.EntityContainer/MeasureView">
+                                        <Annotation Term="Capabilities.DeleteRestrictions">
+                                            <Record Type="Capabilities.DeleteRestrictionsType">
+                                                <PropertyValue Property="Deletable" Bool="false"/>
+                                            </Record>
+                                        </Annotation>
+                                        <Annotation Term="Capabilities.InsertRestrictions">
+                                            <Record Type="Capabilities.InsertRestrictionsType">
+                                                <PropertyValue Property="Insertable" Bool="false"/>
+                                            </Record>
+                                        </Annotation>
+                                        <Annotation Term="Capabilities.UpdateRestrictions">
+                                            <Record Type="Capabilities.UpdateRestrictionsType">
+                                                <PropertyValue Property="Updatable" Bool="false"/>
+                                            </Record>
+                                        </Annotation>
+                                    </Annotations>
+                                    <Annotations Target="IOTService.MeasureView/ID">
+                                        <Annotation Term="UI.Hidden" Bool="true"/>
+                                    </Annotations>
+                                    <Annotations Target="IOTService.MeasureView/timestamp">
+                                        <Annotation Term="Common.Label" String="{i18n>Timestamp}"/>
+                                        </Annotations>
+                                        <Annotations Target="IOTService.MeasureView/temperature">
+                                            <Annotation Term="Common.Label" String="{i18n>Temperature}"/>
+                                            </Annotations>
+                                            <Annotations Target="IOTService.MeasureView/humidity">
+                                                <Annotation Term="Common.Label" String="{i18n>Humidity}"/>
+                                                </Annotations>
+                                                <Annotations Target="IOTService.MeasureView/deviceID">
+                                                    <Annotation Term="Common.Label" String="{i18n>Device Location}"/>
+                                                    </Annotations>
+                                                    <Annotations Target="IOTService.MeasureView/deviceName">
+                                                        <Annotation Term="Common.Label" String="{i18n>Device ID}"/>
+                                                        </Annotations>
+                                                        <Annotations Target="IOTService.MeasureView/deviceLocation">
+                                                            <Annotation Term="Common.Label" String="{i18n>Device Location}"/>
+                                                            </Annotations>
+                                                            <Annotations Target="IOTService.MeasureView/measureMonthYear">
+                                                                <Annotation Term="Core.Computed" Bool="true"/>
+                                                                <Annotation Term="Common.Label" String="{i18n>Month}"/>
+                                                                </Annotations>
+                                                                <Annotations Target="IOTService.MeasureView/measureMonthID">
+                                                                    <Annotation Term="Common.Label" String="{i18n>Month}"/>
+                                                                    </Annotations>
+                                                                    <Annotations Target="IOTService.MeasureView/measureMonthDescription">
+                                                                        <Annotation Term="Common.Label" String="{i18n>Month}"/>
+                                                                        </Annotations>
+                                                                        <Annotations Target="IOTService.MeasureView/measureMonthShortDescription">
+                                                                            <Annotation Term="Common.Label" String="{i18n>Month}"/>
+                                                                            </Annotations>
+                                                                            <Annotations Target="IOTService.MeasureView/year">
+                                                                                <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                <Annotation Term="Common.Label" String="{i18n>Year}"/>
+                                                                                </Annotations>
+                                                                                <Annotations Target="IOTService.MeasureView/date">
+                                                                                    <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                    <Annotation Term="Common.Label" String="{i18n>Date}"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations Target="IOTService.Device/createdAt">
+                                                                                        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                        <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                                                                                        </Annotations>
+                                                                                        <Annotations Target="IOTService.Device/createdBy">
+                                                                                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                            <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                                            <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                            <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                                <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                                                                                                </Annotations>
+                                                                                                <Annotations Target="IOTService.Device/modifiedAt">
+                                                                                                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                    <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                    <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                                                                                                    </Annotations>
+                                                                                                    <Annotations Target="IOTService.Device/modifiedBy">
+                                                                                                        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                                            <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                                                                                            </Annotations>
+                                                                                                            <Annotations Target="IOTService.EntityContainer/DeviceAggregation">
+                                                                                                                <Annotation Term="Capabilities.InsertRestrictions">
+                                                                                                                    <Record Type="Capabilities.InsertRestrictionsType">
+                                                                                                                        <PropertyValue Property="Insertable" Bool="true"/>
+                                                                                                                    </Record>
+                                                                                                                </Annotation>
+                                                                                                                <Annotation Term="Capabilities.UpdateRestrictions">
+                                                                                                                    <Record Type="Capabilities.UpdateRestrictionsType">
+                                                                                                                        <PropertyValue Property="Updatable" Bool="true"/>
+                                                                                                                    </Record>
+                                                                                                                </Annotation>
+                                                                                                                <Annotation Term="Capabilities.DeleteRestrictions">
+                                                                                                                    <Record Type="Capabilities.DeleteRestrictionsType">
+                                                                                                                        <PropertyValue Property="Deletable" Bool="true"/>
+                                                                                                                    </Record>
+                                                                                                                </Annotation>
+                                                                                                            </Annotations>
+                                                                                                            <Annotations Target="IOTService.DeviceAggregation/deviceID">
+                                                                                                                <Annotation Term="Common.Text" Path="deviceLocation"/>
+                                                                                                                <Annotation Term="Common.Label" String="{i18n>Device Location}"/>
+                                                                                                                </Annotations>
+                                                                                                                <Annotations Target="IOTService.DeviceAggregation/deviceName">
+                                                                                                                    <Annotation Term="Common.Label" String="{i18n>Device ID}"/>
+                                                                                                                    </Annotations>
+                                                                                                                    <Annotations Target="IOTService.DeviceAggregation/deviceLocation">
+                                                                                                                        <Annotation Term="Common.Label" String="{i18n>Device Location}"/>
+                                                                                                                        </Annotations>
+                                                                                                                        <Annotations Target="IOTService.DeviceAggregation/measuresCount">
+                                                                                                                            <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                            <Annotation Term="Common.Label" String="{i18n>Measures}"/>
+                                                                                                                            </Annotations>
+                                                                                                                            <Annotations Target="IOTService.DeviceAggregation/temperatureAvg">
+                                                                                                                                <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                                <Annotation Term="Common.Label" String="{i18n>Temperature}"/>
+                                                                                                                                </Annotations>
+                                                                                                                                <Annotations Target="IOTService.DeviceAggregation/humidityAvg">
+                                                                                                                                    <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                                    <Annotation Term="Common.Label" String="{i18n>Humidity}"/>
+                                                                                                                                    </Annotations>
+                                                                                                                                    <Annotations Target="IOTService.MeasureAggregation">
+                                                                                                                                        <Annotation Term="UI.SelectionFields">
+                                                                                                                                            <Collection>
+                                                                                                                                                <PropertyPath>deviceID</PropertyPath>
+                                                                                                                                                <PropertyPath>deviceName</PropertyPath>
+                                                                                                                                                <PropertyPath>date</PropertyPath>
+                                                                                                                                                <PropertyPath>temperature</PropertyPath>
+                                                                                                                                                <PropertyPath>humidity</PropertyPath>
+                                                                                                                                                <PropertyPath>year</PropertyPath>
+                                                                                                                                                <PropertyPath>measureMonthID</PropertyPath>
+                                                                                                                                            </Collection>
+                                                                                                                                        </Annotation>
+                                                                                                                                        <Annotation Term="UI.LineItem">
+                                                                                                                                            <Collection>
+                                                                                                                                                <Record Type="UI.DataField">
+                                                                                                                                                    <PropertyValue Property="Value" Path="deviceLocation"/>
+                                                                                                                                                </Record>
+                                                                                                                                                <Record Type="UI.DataField">
+                                                                                                                                                    <PropertyValue Property="Value" Path="deviceName"/>
+                                                                                                                                                </Record>
+                                                                                                                                                <Record Type="UI.DataField">
+                                                                                                                                                    <PropertyValue Property="Value" Path="timestamp"/>
+                                                                                                                                                </Record>
+                                                                                                                                                <Record Type="UI.DataField">
+                                                                                                                                                    <PropertyValue Property="Value" Path="date"/>
+                                                                                                                                                </Record>
+                                                                                                                                                <Record Type="UI.DataField">
+                                                                                                                                                    <PropertyValue Property="Value" Path="temperature"/>
+                                                                                                                                                </Record>
+                                                                                                                                                <Record Type="UI.DataField">
+                                                                                                                                                    <PropertyValue Property="Value" Path="humidity"/>
+                                                                                                                                                </Record>
+                                                                                                                                            </Collection>
+                                                                                                                                        </Annotation>
+                                                                                                                                    </Annotations>
+                                                                                                                                    <Annotations Target="IOTService.EntityContainer/MeasureAggregation">
+                                                                                                                                        <Annotation Term="Capabilities.DeleteRestrictions">
+                                                                                                                                            <Record Type="Capabilities.DeleteRestrictionsType">
+                                                                                                                                                <PropertyValue Property="Deletable" Bool="false"/>
+                                                                                                                                            </Record>
+                                                                                                                                        </Annotation>
+                                                                                                                                        <Annotation Term="Capabilities.InsertRestrictions">
+                                                                                                                                            <Record Type="Capabilities.InsertRestrictionsType">
+                                                                                                                                                <PropertyValue Property="Insertable" Bool="false"/>
+                                                                                                                                            </Record>
+                                                                                                                                        </Annotation>
+                                                                                                                                        <Annotation Term="Capabilities.UpdateRestrictions">
+                                                                                                                                            <Record Type="Capabilities.UpdateRestrictionsType">
+                                                                                                                                                <PropertyValue Property="Updatable" Bool="false"/>
+                                                                                                                                            </Record>
+                                                                                                                                        </Annotation>
+                                                                                                                                    </Annotations>
+                                                                                                                                    <Annotations Target="IOTService.MeasureAggregation/date">
+                                                                                                                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                                        <Annotation Term="Common.Label" String="{i18n>Date}"/>
+                                                                                                                                        </Annotations>
+                                                                                                                                        <Annotations Target="IOTService.MeasureAggregation/measureMonthYear">
+                                                                                                                                            <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                                            <Annotation Term="Common.Label" String="{i18n>Month}"/>
+                                                                                                                                            </Annotations>
+                                                                                                                                            <Annotations Target="IOTService.MeasureAggregation/year">
+                                                                                                                                                <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                                                <Annotation Term="Common.Label" String="{i18n>Year}"/>
+                                                                                                                                                </Annotations>
+                                                                                                                                                <Annotations Target="IOTService.MeasureAggregation/measuresCount">
+                                                                                                                                                    <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                                                    <Annotation Term="Common.Label" String="{i18n>Measures}"/>
+                                                                                                                                                    </Annotations>
+                                                                                                                                                    <Annotations Target="IOTService.MeasureAggregation/temperatureAvg">
+                                                                                                                                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                                                        <Annotation Term="Common.Label" String="{i18n>Temperature}"/>
+                                                                                                                                                        </Annotations>
+                                                                                                                                                        <Annotations Target="IOTService.MeasureAggregation/humidityAvg">
+                                                                                                                                                            <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                                                            <Annotation Term="Common.Label" String="{i18n>Humidity}"/>
+                                                                                                                                                            </Annotations>
+                                                                                                                                                            <Annotations Target="IOTService.Months_texts/locale">
+                                                                                                                                                                <Annotation Term="Common.Label" String="{i18n>LanguageCode}"/>
+                                                                                                                                                                </Annotations>
+                                                                                                                                                            </Schema>
+                                                                                                                                                        </edmx:DataServices>
+                                                                                                                                                    </edmx:Edmx>

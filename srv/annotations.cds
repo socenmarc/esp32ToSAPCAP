@@ -14,7 +14,6 @@ annotate IOTService.MeasureView with @(UI : {
         {Value : deviceLocation},
         {Value : deviceName},
         {Value : timestamp},
-        {Value : date},
         {Value : temperature},
         {Value : humidity}
     ]
@@ -23,13 +22,13 @@ annotate IOTService.MeasureView with @(UI : {
 annotate IOTService.MeasureView with @(sap.semantics : 'aggregate');
 
 annotate IOTService.MeasureView with {
-    date                         @title                : '{i18n>Date}';
+    date                         @title                : '{i18n>Turn date}';
     timestamp                    @title                : '{i18n>Timestamp}';
-    temperature                  @title                : '{i18n>Temperature}';
-    humidity                     @title                : '{i18n>Humidity}';
-    deviceID                     @title                : '{i18n>Device Location}';
-    deviceName                   @title                : '{i18n>Device ID}';
-    deviceLocation               @title                : '{i18n>Device Location}';
+    temperature                  @title                : '{i18n>Actividad neta}';
+    humidity                     @title                : '{i18n>Rendiemiento}';
+    deviceID                     @title                : '{i18n>Turn}';
+    deviceName                   @title                : '{i18n>Operation}';
+    deviceLocation               @title                : '{i18n>Turn}';
     year                         @title                : '{i18n>Year}';
     measureMonthYear             @title                : '{i18n>Month}';
     measureMonthID               @title                : '{i18n>Month}';
@@ -42,8 +41,10 @@ annotate IOTService.MeasureView with {
     );
     date                         @sap.aggregation.role : 'dimension';
     timestamp                    @sap.aggregation.role : 'dimension';
-    temperature                  @sap.aggregation.role : 'measure';
-    humidity                     @sap.aggregation.role : 'measure';
+    temperature                  @sap.aggregation.role : 'measure'                             
+                                 @Aggregation.default : #AVG;
+    humidity                     @sap.aggregation.role : 'measure'                             
+                                 @Aggregation.default : #AVG;
     deviceID                     @sap.aggregation.role : 'dimension';
     deviceName                   @sap.aggregation.role : 'dimension';
     deviceLocation               @sap.aggregation.role : 'dimension';
@@ -57,7 +58,7 @@ annotate IOTService.MeasureView with {
 annotate IOTService.MeasureAggregation with @(sap.semantics : 'aggregate');
 
 annotate IOTService.MeasureAggregation with {
-    date                         @title                : '{i18n>Date}';
+    date                         @title                : '{i18n>Turn date}';
     measuresCount                @title                : '{i18n>Measures}';
     temperatureAvg               @title                : '{i18n>Temperature}';
     humidityAvg                  @title                : '{i18n>Humidity}';
@@ -82,9 +83,9 @@ annotate IOTService.MeasureAggregation with {
 annotate IOTService.DeviceAggregation with @(sap.semantics : 'aggregate');
 
 annotate IOTService.DeviceAggregation with {
-    deviceID                     @title                : '{i18n>Device Location}';
-    deviceName                   @title                : '{i18n>Device ID}';
-    deviceLocation               @title                : '{i18n>Device Location}';
+    deviceID                     @title                : '{i18n>Turn}';
+    deviceName                   @title                : '{i18n>Operation}';
+    deviceLocation               @title                : '{i18n>Turn}';
     measuresCount                @title                : '{i18n>Measures}';
     temperatureAvg               @title                : '{i18n>Temperature}';
     humidityAvg                  @title                : '{i18n>Humidity}';

@@ -1,0 +1,1 @@
+using IOTService as service from '../../srv/iot-service';

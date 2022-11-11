@@ -7,8 +7,6 @@ using {
 
 entity Measure : cuid, managed {
   timestamp      : Timestamp;
-  date           : Date;
-  year           : String(4);
   temperature    : Decimal(5, 2);
   humidity       : Decimal(5, 2);
   toDevice       : Association to Device;  
