@@ -1,3 +1,12 @@
+# ALP
+
+Start the service:
+cds run
+
+Start the app:
+cd app\iotupgr
+npm run start
+
 # Getting Started
 
 Welcome to your new project.
