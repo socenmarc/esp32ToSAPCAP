@@ -24,8 +24,8 @@ annotate IOTService.MeasureView with @(sap.semantics : 'aggregate');
 annotate IOTService.MeasureView with {
     date                         @title                : '{i18n>Turn date}';
     timestamp                    @title                : '{i18n>Timestamp}';
-    temperature                  @title                : '{i18n>Actividad neta}';
-    humidity                     @title                : '{i18n>Rendiemiento}';
+    temperature                  @title                : '{i18n>Time}';
+    humidity                     @title                : '{i18n>Coefficient of activity}';
     deviceID                     @title                : '{i18n>Turn}';
     deviceName                   @title                : '{i18n>Operation}';
     deviceLocation               @title                : '{i18n>Turn}';
